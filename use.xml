@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:ActivityDiagram xmlns:uml="http://www.omg.org/spec/UML/20090901">
+  <uml:Activity name="HospitalAdmissionProcess">
+    <!-- Start Node -->
+    <uml:InitialNode name="Start"/>
+
+    <!-- Community Doctor Actions -->
+    <uml:Action name="Refer Patient"/>
+    <uml:DecisionNode name="Circumstances Changed?">
+      <uml:Flow name="Yes" target="Cancel Admission"/>
+      <uml:Flow name="No" target="Check Patient Details"/>
+    </uml:DecisionNode>
+    <uml:Action name="Cancel Admission"/>
+    <uml:Action name="Record Cancellation"/>
+
+    <!-- Hospital Actions -->
+    <uml:Action name="Check Patient Details"/>
+    <uml:Action name="Create Planned Admission"/>
+    <uml:ForkNode name="Send Admission Card">
+      <uml:Flow target="Send Card to Patient"/>
+      <uml:Flow target="Send Copy to Community Doctor"/>
+    </uml:ForkNode>
+    <uml:Action name="Send Card to Patient"/>
+    <uml:Action name="Send Copy to Community Doctor"/>
+    <uml:JoinNode name="Card Sent"/>
+
+    <uml:DecisionNode name="Delay Needed?">
+      <uml:Flow name="Yes" target="Deferred Admission"/>
+      <uml:Flow name="No" target="Activate Admission"/>
+    </uml:DecisionNode>
+    <uml:Action name="Deferred Admission"/>
+    <uml:Action name="Record Delay Period"/>
+    <uml:DecisionNode name="Cancel?">
+      <uml:Flow name="Yes" target="Cancel Admission"/>
+      <uml:Flow name="No" target="Activate Admission"/>
+    </uml:DecisionNode>
+    <uml:Action name="Activate Admission"/>
+    <uml:Action name="Record Admission Date"/>
+    <uml:Action name="Hospital Doctor Supervises"/>
+
+    <!-- Hospital Doctor Actions -->
+    <uml:DecisionNode name="Diagnosis Made?">
+      <uml:Flow name="No" target="Discharged Admission"/>
+      <uml:Flow name="Yes" target="Record Diagnosis"/>
+    </uml:DecisionNode>
+    <uml:Action name="Record Diagnosis (Description, Code, Date)"/>
+    <uml:DecisionNode name="Treatable Diagnosis?">
+      <uml:Flow name="No" target="Discharged Admission"/>
+      <uml:Flow name="Yes" target="Treatable Admission"/>
+    </uml:DecisionNode>
+    <uml:Action name="Treatable Admission"/>
+    <uml:Action name="Treatment (Surgery / Medication)"/>
+    <uml:Action name="Treatment Completed"/>
+    <uml:Action name="Discharge Patient"/>
+    <uml:Action name="Record Discharge & Notes"/>
+
+    <!-- End Node -->
+    <uml:FinalNode name="End"/>
+  </uml:Activity>
+</uml:ActivityDiagram>
